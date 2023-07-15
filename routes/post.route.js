@@ -24,6 +24,11 @@ router.post("/add", auth, async (req, res) => {
 
 router.get("/", async(req,res) => {
   try {
+    const {page} = req.query;
+    if(!page){
+      page = 1
+    }
+    const posts = await PostModel.find().skip((page-1)*17).limit(17)
     const post = await PostModel.find();
     return res.status(200).json(post)
   } catch (error) {
